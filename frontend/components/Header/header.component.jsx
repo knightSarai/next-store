@@ -24,9 +24,9 @@ function Header(props) {
 
     return (
         <React.Fragment>
-            <AppBar color="primary" position="sticky" elevation={0}>
+            <AppBar color="primary" position="sticky" elevation={0} style={{ padding: " 20px 10px" }}>
                 <Toolbar>
-                    <Grid container spacing={1} alignItems="center">
+                    <Grid container spacing={1} alignItems="center" justifyContent="center">
                         <Hidden smUp>
                             <Grid item>
                                 <IconButton
@@ -39,12 +39,12 @@ function Header(props) {
                                 </IconButton>
                             </Grid>
                         </Hidden>
-                        <Grid item xs />
-                        <Grid item>
-                            <Link className={classes.link} href="#" variant="body2">
-                                Go to docs
-                            </Link>
+                        <Grid item xs>
+                            <Typography color="inherit" variant="h5" component="h1">
+                                Shop Now!
+                            </Typography>
                         </Grid>
+                        <Grid item xs />
                         <Grid item>
                             <Tooltip title="Alerts • No alerts">
                                 <IconButton color="inherit">
@@ -54,54 +54,11 @@ function Header(props) {
                         </Grid>
                         <Grid item>
                             <IconButton color="inherit" className={classes.iconButtonAvatar}>
-                                <Avatar src="/static/images/avatar/1.jpg" alt="My Avatar" />
+                                <Avatar alt="My Avatar" />
                             </IconButton>
                         </Grid>
                     </Grid>
                 </Toolbar>
-            </AppBar>
-            <AppBar
-                component="div"
-                className={classes.secondaryBar}
-                color="primary"
-                position="static"
-                elevation={0}
-            >
-                <Toolbar>
-                    <Grid container alignItems="center" spacing={1}>
-                        <Grid item xs>
-                            <Typography color="inherit" variant="h5" component="h1">
-                                Authentication
-                            </Typography>
-                        </Grid>
-                        <Grid item>
-                            <Button className={classes.button} variant="outlined" color="inherit" size="small">
-                                Web setup
-                            </Button>
-                        </Grid>
-                        <Grid item>
-                            <Tooltip title="Help">
-                                <IconButton color="inherit">
-                                    <HelpIcon />
-                                </IconButton>
-                            </Tooltip>
-                        </Grid>
-                    </Grid>
-                </Toolbar>
-            </AppBar>
-            <AppBar
-                component="div"
-                className={classes.secondaryBar}
-                color="primary"
-                position="static"
-                elevation={0}
-            >
-                <Tabs value={0} textColor="inherit">
-                    <Tab textColor="inherit" label="Users" />
-                    <Tab textColor="inherit" label="Sign-in method" />
-                    <Tab textColor="inherit" label="Templates" />
-                    <Tab textColor="inherit" label="Usage" />
-                </Tabs>
             </AppBar>
         </React.Fragment>
     );

@@ -1,1 +1,1 @@
-export { default } from './layout.component';
+export { default } from './layout.component'
