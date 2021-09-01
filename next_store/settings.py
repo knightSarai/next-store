@@ -19,7 +19,8 @@ INSTALLED_APPS = [
     'corsheaders',
     'rest_framework',
     'store',
-    'mptt'
+    'mptt',
+    'mixer'
 ]
 
 MIDDLEWARE = [

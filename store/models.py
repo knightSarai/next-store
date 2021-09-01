@@ -112,6 +112,8 @@ class Product(models.Model):
     created_at = models.DateTimeField(_("Created at"), auto_now_add=True, editable=False)
     updated_at = models.DateTimeField(_("Updated at"), auto_now=True)
 
+    quantity = models.IntegerField(verbose_name=_("Product Quantity"), default=0, null=0)
+
     class Meta:
         ordering = ("-created_at",)
         verbose_name = _("Product")
@@ -122,6 +124,10 @@ class Product(models.Model):
 
     def __str__(self):
         return self.title
+
+    @property
+    def is_in_stock(self):
+        return self.quantity > 0
 
 
 class ProductSpecificationValue(models.Model):

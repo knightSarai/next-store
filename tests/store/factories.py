@@ -1,10 +1,19 @@
 import factory
+from django.contrib.auth.models import User
 
 from store.models import Category, Product, ProductType
 
 from faker import Faker
 
 fake = Faker()
+
+
+class UserFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = User
+
+    username = fake.name()
+    is_staff = True
 
 
 class CategoryFactory(factory.django.DjangoModelFactory):
