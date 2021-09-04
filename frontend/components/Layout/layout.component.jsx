@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import Head from 'next/head';
 import PropTypes from 'prop-types';
 import { ThemeProvider } from '@material-ui/core/styles';
@@ -9,7 +9,7 @@ import Typography from '@material-ui/core/Typography';
 import Link from '@/components/Link';
 import Navigator from '@/components/Navigator';
 import Header from '@/components/Header';
-
+import AuthContext from '@/context/AuthContext';
 import theme from '@/styles/theme';
 import styles from './layout.styles';
 
@@ -31,7 +31,11 @@ const drawerWidth = 256;
 
 function Layout(props) {
     const { classes, title, keywords, description, children } = props;
-    const [mobileOpen, setMobileOpen] = React.useState(false);
+    const [mobileOpen, setMobileOpen] = useState(false);
+    const { getCsrf } = useContext(AuthContext)
+    useEffect(() => {
+        getCsrf()
+    }, [])
 
     const handleDrawerToggle = () => {
         setMobileOpen(!mobileOpen);

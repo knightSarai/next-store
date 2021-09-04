@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "react-icons": "^4.2.0",
+    "react-toastify": "^8.0.2"
+  }
+}

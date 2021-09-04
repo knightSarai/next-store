@@ -1,5 +1,17 @@
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
+import { API_URL } from '@/config/index';
 
-export default (req, res) => {
-  res.status(200).json({ name: 'John Doe' })
+export default async (req, res) => {
+  const djangoRes = await fetch(`${API_URL}/account/csrf/`, {
+    headers: {
+      "Content-Type": 'application/json'
+    },
+  });
+
+  console.log(djangoRes);
+
+  console.log(djangoRes.headers);
+
+  const c = djangoRes.headers.get('set-cookie')
+  console.log(c);
+  res.status(200).json({ name: '' })
 }

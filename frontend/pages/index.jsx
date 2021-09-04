@@ -23,7 +23,7 @@ export default function Home({ products }) {
             {getProductImages(product)}
             <div className={styles.productDescription}>
               <br />
-              <Link href={`products/${product.slug}`}>
+              <Link href={`/products/${product.slug}`}>
                 {product.title}
               </Link>
               <br />

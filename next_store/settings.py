@@ -18,9 +18,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'corsheaders',
     'rest_framework',
-    'store',
     'mptt',
-    'mixer'
+    'mixer',
+    'account',
+    'store',
 ]
 
 MIDDLEWARE = [
@@ -34,9 +35,25 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-CORS_ORIGIN_WHITELIST = (
+CSRF_COOKIE_SAMESITE = "Lax"
+SESSION_COOKIE_SAMESITE = "Lax"
+# CSRF_COOKIE_HTTPONLY = True
+# SESSION_COOKIE_HTTPONLY = True
+# CSRF_COOKIE_SECURE = False
+
+CORS_ALLOWED_ORIGINS = (
     'http://localhost:3000',
+    'http://127.0.0.1:3000',
 )
+
+CSRF_TRUSTED_ORIGINS = [
+    'http://localhost:3000',
+    'http://127.0.0.1:3000',
+]
+
+CORS_EXPOSE_HEADERS = ['Content-Type', "X-CSRFToken", "csrf_cookie"]
+
+CORS_ALLOW_CREDENTIALS = True
 
 ROOT_URLCONF = 'next_store.urls'
 
