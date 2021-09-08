@@ -7,7 +7,6 @@ const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
     const [error, setError] = useState(null);
-    const [csrftoken, setCsrftoken] = useState('');
 
     // useEffect(() => checkUserLoggedInState(), [])
 
@@ -21,12 +20,6 @@ export const AuthProvider = ({ children }) => {
                 "Content-Type": 'application/json'
             },
         });
-        setCsrftoken(res.headers.get("X-CSRFToken"))
-        console.log(csrftoken);
-        console.log(res.headers.get("X-CSRFToken"));
-        console.log(Cookies.get('csrftoken'));
-
-        // const data = await res.json();
 
         if (!res.ok) {
             setError(data.message)
@@ -37,7 +30,6 @@ export const AuthProvider = ({ children }) => {
 
     const login = async ({ username, password }) => {
         const res = await fetch(`${API_URL}/account/login/`, {
-
             method: 'POST',
             credentials: "include",
             headers: {
@@ -58,16 +50,16 @@ export const AuthProvider = ({ children }) => {
         }
 
         setUser(data.user);
-        router.push('/account/dashboard');
 
     }
 
     const logout = async () => {
-        const res = await fetch(`${NEXT_URL}/api/auth/logout`, {
-            method: 'POST'
+        const res = await fetch(`${API_URL}/account/logout/`, {
+            credentials: "include",
+            headers: {
+                "Content-Type": 'application/json',
+            },
         });
-
-        const user = await res.json();
 
         if (res.ok) {
             setUser(null);
@@ -104,10 +96,15 @@ export const AuthProvider = ({ children }) => {
                 "Content-Type": 'application/json',
             }
         });
-        const user = await res.json();
 
-        if (res.ok) return setUser(user);
 
+        const data = await res.json();
+
+        if (res.ok) {
+            setUser(data.user);
+            return
+        }
+        setError(data)
         setUser(null);
     }
 
@@ -116,7 +113,7 @@ export const AuthProvider = ({ children }) => {
         user,
         error,
         login,
-        // logout,
+        logout,
         // register, 
         getCsrf,
         checkUserLoggedInState

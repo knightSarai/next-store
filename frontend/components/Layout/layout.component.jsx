@@ -32,10 +32,6 @@ const drawerWidth = 256;
 function Layout(props) {
     const { classes, title, keywords, description, children } = props;
     const [mobileOpen, setMobileOpen] = useState(false);
-    const { getCsrf } = useContext(AuthContext)
-    useEffect(() => {
-        getCsrf()
-    }, [])
 
     const handleDrawerToggle = () => {
         setMobileOpen(!mobileOpen);

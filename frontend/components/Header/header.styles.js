@@ -20,6 +20,9 @@ const styles = (theme) => ({
     button: {
         borderColor: lightColor,
     },
+    headerLink: {
+        color: "#fff"
+    }
 });
 
 export default styles;

@@ -1,4 +1,5 @@
 import { useState, useEffect, useContext } from 'react';
+import { useRouter } from 'next/router';
 import Link from '@/components/Link';
 import { FaUser } from 'react-icons/fa';
 import { ToastContainer, toast } from 'react-toastify';
@@ -11,8 +12,12 @@ import styles from '@/styles/authForm.module.css';
 export default function LoginPage() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const router = useRouter();
+    const { login, error, user } = useContext(AuthContext);
 
-    const { login, error } = useContext(AuthContext)
+    useEffect(() => {
+        if (user) router.push('/account/dashboard');
+    }, [user])
 
     useEffect(async () => {
         error && toast.error(error);
@@ -20,6 +25,7 @@ export default function LoginPage() {
 
     const handleSubmit = evt => {
         evt.preventDefault();
+        if (user) return;
         login({ username, password });
     }
 
@@ -49,10 +55,8 @@ export default function LoginPage() {
                             onChange={(e) => setPassword(e.target.value)}
                         />
                     </div>
-
                     <input type='submit' value='Login' className='btn' />
                 </form>
-
                 <p>
                     Don't have an account? <Link href='/account/register'>Register</Link>
                 </p>
