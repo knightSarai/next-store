@@ -1,24 +1,20 @@
-import { useContext, useEffect } from "react";
-import { useRouter } from 'next/router';
-import AuthContext from '@/context/AuthContext';
-
-export default function Protected({ children }) {
-    const router = useRouter()
-    const { getCsrf, checkUserLoggedInState, user } = useContext(AuthContext);
-
-    useEffect(() => {
-        getCsrf();
-        checkUserLoggedInState();
-    }, [])
-
-    useEffect(() => {
-        !user && router.push('/')
-    }, [user])
+import { useContext } from "react";
+import GlobalContext from '@/context/GlobalContext';
+import Link from '@/components/Link'
+import Layout from '@/components/Layout';
 
 
-    return (
-        <div>
-            {children}
-        </div>
-    )
-}
+const WithProtected = Component => ({ ...props }) => {
+    const { user } = useContext(GlobalContext);
+    return !user ?
+        (<Layout>
+            <h1>Not Allowed</h1>
+            <Link href="/">Home Page</Link>
+        </Layout>
+        ) : (
+            <Component {...props} />
+        )
+};
+
+
+export default WithProtected
