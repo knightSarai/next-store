@@ -10,13 +10,15 @@ import MenuIcon from '@material-ui/icons/Menu';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import AuthContext from '@/context/AuthContext';
-import { withStyles } from '@material-ui/core/styles';
-import styles from './header.styles';
+import GlobalContext from '@/context/GlobalContext';
+import useStyles from './header.styles';
 
 
 function Header(props) {
-    const { classes, onDrawerToggle } = props;
-    const { user, error, logout } = useContext(AuthContext);
+    const classes = useStyles();
+    const { onDrawerToggle } = props;
+    const { user, error } = useContext(GlobalContext);
+    const { logout } = useContext(AuthContext);
     useEffect(() => {
         error && console.log(error);
     }, [error])
@@ -30,7 +32,7 @@ function Header(props) {
                     </Link>
                 </Grid>
                 <Grid item>
-                    <Typography color="inherit" variant="h6" onClick={logout}>
+                    <Typography color="inherit" variant="h6" onClick={logout} className={classes.headerLink}>
                         logout
                     </Typography>
                 </Grid>
@@ -80,8 +82,7 @@ function Header(props) {
 }
 
 Header.propTypes = {
-    classes: PropTypes.object.isRequired,
     onDrawerToggle: PropTypes.func.isRequired,
 };
 
-export default withStyles(styles)(Header);
+export default Header;

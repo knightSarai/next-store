@@ -1,6 +1,8 @@
+import { makeStyles } from '@material-ui/core/styles';
+
 const lightColor = 'rgba(255, 255, 255, 0.7)';
 
-const styles = (theme) => ({
+const useStyles = makeStyles((theme) => ({
     secondaryBar: {
         zIndex: 0,
     },
@@ -21,8 +23,12 @@ const styles = (theme) => ({
         borderColor: lightColor,
     },
     headerLink: {
-        color: "#fff"
-    }
-});
+        color: "#fff",
+        "&:hover": {
+            cursor: "pointer"
+        }
+    },
 
-export default styles;
+}));
+
+export default useStyles;

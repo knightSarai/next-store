@@ -1,7 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
+import React, { useState, useEffect, useRef } from 'react';
 import clsx from 'clsx';
-import { withStyles } from '@material-ui/core/styles';
 import Divider from '@material-ui/core/Divider';
 import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
@@ -13,20 +11,30 @@ import Link from '@/components/Link'
 
 import { API_URL } from "@/config/index"
 
-import styles from './navigator.styles'
+import useStyles from './navigator.styles'
 
 function Navigator(props) {
-    const { classes, ...other } = props;
     const [categories, setCategories] = useState([]);
+    const ref = useRef();
+    const classes = useStyles();
 
-    useEffect(async () => {
-        const res = await fetch(`${API_URL}/categories/tree`)
-        const data = await res.json()
-        setCategories(data)
+    const fetchCategories = async () => {
+        try {
+            const res = await fetch(`${API_URL}/categories/tree`);
+            const data = await res.json();
+            if (!ref.current) return;
+            setCategories(data);
+        } catch (err) {
+            console.log("err", err);
+        }
+    }
+
+    useEffect(() => {
+        fetchCategories();
     }, [])
 
     return (
-        <Drawer variant="permanent" {...other}>
+        <Drawer ref={ref} variant="permanent" {...props}>
             <List disablePadding>
                 <ListItem className={clsx(classes.firebase, classes.item, classes.itemCategory)}>
                     Next Store
@@ -45,7 +53,7 @@ function Navigator(props) {
                         </Link>
                     </ListItemText>
                 </ListItem>
-                {categories.map(({ id, name, children, slug }) => (
+                {categories?.map(({ id, name, children, slug }) => (
                     <React.Fragment key={id}>
                         <ListItem className={classes.categoryHeader}>
                             <ListItemText
@@ -80,8 +88,4 @@ function Navigator(props) {
     );
 }
 
-Navigator.propTypes = {
-    classes: PropTypes.object.isRequired,
-};
-
-export default withStyles(styles)(Navigator);
+export default Navigator;

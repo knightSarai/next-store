@@ -9,7 +9,6 @@ import Typography from '@material-ui/core/Typography';
 import Link from '@/components/Link';
 import Navigator from '@/components/Navigator';
 import Header from '@/components/Header';
-import AuthContext from '@/context/AuthContext';
 import theme from '@/styles/theme';
 import styles from './layout.styles';
 

@@ -1,14 +1,22 @@
-import { createContext, useState, useEffect } from "react";
+import { createContext, useState, useEffect, useContext } from "react";
 import { useRouter } from "next/router";
 import { NEXT_URL, API_URL } from "@/config/index";
-import Cookies from 'js-cookie'
+import GlobalContext from "@/context/GlobalContext";
 const AuthContext = createContext();
 
-export const AuthProvider = ({ children }) => {
-    const [user, setUser] = useState(null);
-    const [error, setError] = useState(null);
 
-    // useEffect(() => checkUserLoggedInState(), [])
+export const AuthProvider = ({ children }) => {
+
+    const { setUser, setError, setIsLoading } = useContext(GlobalContext);
+
+    useEffect(() => {
+        (async () => {
+            setIsLoading(true)
+            await getCsrf();
+            await checkUserLoggedInState()
+            setIsLoading(false)
+        })();
+    }, [])
 
     const router = useRouter();
 
@@ -110,8 +118,6 @@ export const AuthProvider = ({ children }) => {
 
 
     const context = {
-        user,
-        error,
         login,
         logout,
         // register, 
