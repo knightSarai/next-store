@@ -7,13 +7,15 @@ import 'react-toastify/dist/ReactToastify.css';
 import { API_URL } from '@/config/index';
 import Layout from '@/components/Layout/';
 import AuthContext from '@/context/AuthContext';
+import GlobalContext from '@/context/GlobalContext';
 import styles from '@/styles/authForm.module.css';
 
 export default function LoginPage() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const router = useRouter();
-    const { login, error, user } = useContext(AuthContext);
+    const { login } = useContext(AuthContext);
+    const { error, user } = useContext(GlobalContext);
 
     useEffect(() => {
         if (user) router.push('/account/dashboard');

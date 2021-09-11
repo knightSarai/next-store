@@ -43,7 +43,7 @@ export default function Product({ product }) {
 }
 
 
-export async function getServerSideProps({ slugreq, query: { slug } }) {
+export async function getServerSideProps({ query: { slug } }) {
     const res = await fetch(`${API_URL}/products/${slug}`)
     const product = await res.json()
 

@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import '@/styles/globals.css';
-import { AuthProvider } from '@/context/AuthContext'
+import { AuthProvider } from '@/context/AuthContext';
+import { GlobalStateProvider } from '@/context/GlobalContext';
 
 
 function MyApp({ Component, pageProps }) {
@@ -10,9 +11,11 @@ function MyApp({ Component, pageProps }) {
   }, []);
 
   return (
-    <AuthProvider>
-      <Component {...pageProps} />
-    </AuthProvider>
+    <GlobalStateProvider>
+      <AuthProvider>
+        <Component {...pageProps} />
+      </AuthProvider>
+    </GlobalStateProvider>
   )
 
 }
