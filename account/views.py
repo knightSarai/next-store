@@ -1,15 +1,11 @@
-import json
-
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.http import JsonResponse
-from django.middleware.csrf import get_token
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import ensure_csrf_cookie, csrf_protect
-from django.views.decorators.http import require_POST
-from rest_framework import permissions
-from rest_framework import authentication
+from rest_framework import permissions, authentication
 from rest_framework.views import APIView
+
 from .serializers import UserSerializer
 
 
@@ -20,27 +16,53 @@ class GetCSRFToken(APIView):
 
 
 @method_decorator(ensure_csrf_cookie, name="dispatch")
+class SignUpView(APIView):
+    def post(self, request):
+        try:
+            data = self.request.data
+            username = data.get("username")
+            email = data.get("email")
+            password = data.get("password")
+            password_confirm = data.get("passwordConfirm")
+
+            if password != password_confirm:
+                print(password)
+                print(password_confirm)
+                return JsonResponse({"error: ": "Passwords don't match"}, status=500)
+
+            User.objects.create_user(username=username, email=email, password=password)
+
+            return JsonResponse({"message": "User created in successfully",})
+
+        except Exception as e:
+            return JsonResponse({"message": f"{e!r}"}, status=500)
+
+
+@method_decorator(ensure_csrf_cookie, name="dispatch")
 class LoginView(APIView):
     def post(self, request):
+        try:
+            data = self.request.data
+            username = data.get("username")
+            password = data.get("password")
 
-        data = self.request.data
-        username = data.get("username")
-        password = data.get("password")
+            if username is None or password is None:
+                return JsonResponse({"error: ": "Username and Password is needed"})
 
-        if username is None and password is None:
-            return JsonResponse({"error: ": "Username and Password is needed"})
+            user = authenticate(username=username, password=password)
 
-        user = authenticate(username=username, password=password)
+            if not user:
+                return JsonResponse({"error:": "User does not exist"})
 
-        if not user:
-            return JsonResponse({"error:": "User does not exist"})
+            login(request, user)
+            user_serializer = UserSerializer(user)
+            return JsonResponse({
+                "message": "User logged in successfully",
+                "user": user_serializer.data
+            })
 
-        login(request, user)
-        user_serializer = UserSerializer(user)
-        return JsonResponse({
-            "message": "User logged in successfully",
-            "user": user_serializer.data
-        })
+        except Exception as e:
+            return JsonResponse({"message": f"{e!r}"})
 
 
 @method_decorator(ensure_csrf_cookie, name="dispatch")

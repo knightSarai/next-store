@@ -8,7 +8,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import Layout from '@/components/Layout/';
 import AuthContext from '@/context/AuthContext';
 import styles from '@/styles/authForm.module.css';
-import router from 'next/router';
+
 
 export default function RegisterPage() {
     const [username, setUsername] = useState('');
@@ -28,7 +28,12 @@ export default function RegisterPage() {
             return
         }
 
-        register({ username, email, password })
+        register({
+            username,
+            email,
+            password,
+            passwordConfirm
+        })
     }
 
     if (user) {

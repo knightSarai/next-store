@@ -14,8 +14,12 @@ export default function LoginPage() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const router = useRouter();
-    const { login } = useContext(AuthContext);
+    const { login, checkUserLoggedInState } = useContext(AuthContext);
     const { error, user } = useContext(GlobalContext);
+
+    useEffect(() => {
+        checkUserLoggedInState()
+    }, [])
 
     useEffect(() => {
         if (user) router.push('/account/dashboard');

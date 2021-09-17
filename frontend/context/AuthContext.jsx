@@ -77,7 +77,7 @@ export const AuthProvider = ({ children }) => {
     }
 
     const register = async user => {
-        const res = await fetch(`${NEXT_URL}/api/auth/register`, {
+        const res = await fetch(`${API_URL}/account/signup/`, {
             method: 'POST',
             headers: {
                 "Content-Type": 'application/json'
@@ -89,12 +89,11 @@ export const AuthProvider = ({ children }) => {
 
         if (!res.ok) {
             setError(data.message)
-            setError(null);
             return;
         }
 
         setUser(data.user);
-        router.push('/account/dashboard');
+        router.push('/account/login');
     }
 
     const checkUserLoggedInState = async () => {
@@ -120,7 +119,7 @@ export const AuthProvider = ({ children }) => {
     const context = {
         login,
         logout,
-        // register, 
+        register,
         getCsrf,
         checkUserLoggedInState
     }
