@@ -20,14 +20,15 @@ class CategoryFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = Category
 
-    name = 'Protein'
+    name = 'Test Product category'
+    slug = 'test-product-category'
 
 
 class ProductTypeFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = ProductType
 
-    name = 'Supplements'
+    name = 'Test Product Type'
 
 
 class ProductFactory(factory.django.DjangoModelFactory):
@@ -35,9 +36,9 @@ class ProductFactory(factory.django.DjangoModelFactory):
         model = Product
 
     product_type = factory.SubFactory(ProductTypeFactory)
-    title = 'Whey Protein'
+    title = 'Test Product'
     category = factory.SubFactory(CategoryFactory)
     description = fake.text()
-    slug = 'whey-protein'
+    slug = 'test-product'
     regular_price = '9.99'
     discount_price = '4.99'

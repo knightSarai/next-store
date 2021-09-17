@@ -73,6 +73,11 @@ class ProductSpecification(models.Model):
 
 
 class Product(models.Model):
+    class Meta:
+        ordering = ("-created_at",)
+        verbose_name = _("Product")
+        verbose_name_plural = _("Products")
+
     product_type = models.ForeignKey(ProductType, on_delete=models.RESTRICT)
     category = models.ForeignKey(Category, on_delete=models.RESTRICT)
     title = models.CharField(
@@ -113,11 +118,6 @@ class Product(models.Model):
     updated_at = models.DateTimeField(_("Updated at"), auto_now=True)
 
     quantity = models.IntegerField(verbose_name=_("Product Quantity"), default=0, null=0)
-
-    class Meta:
-        ordering = ("-created_at",)
-        verbose_name = _("Product")
-        verbose_name_plural = _("Products")
 
     def get_absolute_url(self):
         return reverse("store:product_detail", args=[self.slug])
